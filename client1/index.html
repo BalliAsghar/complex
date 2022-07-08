@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+  </head>
+  <body>
+    <div className="App">
+      <header className="App-header">
+        <h1 className="App-title">Welcome to React</h1>
+        <Link to="/">Home</Link>
+        <Link to="/otherpage">Other Page</Link>
+      </header>
+      <div>
+        <div>
+          <div x-data="{ index: ''}">
+  
+            <label>Enter your index:</label>
+            <input
+             type="number"
+             placeholder="Enter your index"
+             x-model="index"
+            />
+            <button @click="await handleCal(index)">Submit</button>
+     
+        </div>
+          <h3>Indexes I have seen:</h3>
+  
+          <h3>Calculated Values:</h3>
+  
+
+        </div>
+      </div>
+    </div>
+    <script>
+    async function handleCal(index){
+         try {
+           const response = await fetch('/api/calculate', {
+             method: 'POST',
+             headers: {
+               'Content-Type': 'application/json'
+             },
+             body: JSON.stringify({
+               index: index
+             })
+           });
+            const data = await response.json();
+            console.log(data);
+         } catch (error) {
+          console.log(error);
+         }
+    }
+    </script>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
