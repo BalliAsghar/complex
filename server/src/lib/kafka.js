@@ -24,7 +24,7 @@ export async function relayMessage(topic, message) {
     topic,
     messages: [
       {
-        value: JSON.stringify(message),
+        value: message,
       },
     ],
   });
