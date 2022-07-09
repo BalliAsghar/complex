@@ -16,10 +16,10 @@ services:
       - POSTGRES_PASSWORD=postgres_password
     ports:
       - "5432:5432"  
-  redis:
-    image: redis:latest
-    ports:
-      - "6379:6379"
+  # redis:
+  #   image: redis:latest
+  #   ports:
+  #     - "6379:6379"
   # api:
   #   depends_on:
   #     - postgres
