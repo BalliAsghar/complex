@@ -10,11 +10,12 @@ async function connectKafka() {
   return kafka;
 }
 
-export async function relayMessage(topic, message) {
+export async function relayMessage(topic: string, message: string) {
   const KafkaInit = await connectKafka();
 
   const producer = KafkaInit.producer({
     createPartitioner: Partitioners.LegacyPartitioner,
+    allowAutoTopicCreation: true,
   });
   producer.logger().setLogLevel(logLevel.DEBUG);
 
