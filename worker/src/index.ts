@@ -1,5 +1,5 @@
 import { Kafka } from "kafkajs";
-
+import { SendMessage } from "./lib/slack";
 async function main() {
   const kafka = new Kafka({
     clientId: "worker",
@@ -20,6 +20,7 @@ async function main() {
       console.log(
         `Received message: ${message?.value?.toString()}, from Topic ${topic}`
       );
+      await SendMessage(message?.value?.toString()!);
     },
   });
 }
