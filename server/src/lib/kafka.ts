@@ -2,9 +2,9 @@ import { Kafka, Partitioners, logLevel } from "kafkajs";
 
 async function connectKafka() {
   const kafka = new Kafka({
-    clientId: "server",
-    brokers: ["balliasgharsair:9092"],
-    logLevel: logLevel.ERROR,
+    clientId: process.env.KAFKA_CLIENT_ID,
+    brokers: [`${process.env.KAFKA_HOST}:${process.env.KAFKA_PORT}`],
+    logLevel: logLevel.INFO,
   });
 
   return kafka;
@@ -17,7 +17,7 @@ export async function relayMessage(topic: string, message: string) {
     createPartitioner: Partitioners.LegacyPartitioner,
     allowAutoTopicCreation: true,
   });
-  producer.logger().setLogLevel(logLevel.DEBUG);
+  producer.logger().setLogLevel(logLevel.INFO);
 
   await producer.connect();
 

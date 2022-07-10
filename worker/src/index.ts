@@ -2,17 +2,17 @@ import { Kafka } from "kafkajs";
 import { SendMessage } from "./lib/slack";
 async function main() {
   const kafka = new Kafka({
-    clientId: "worker",
-    brokers: ["balliasgharsair:9092"],
+    clientId: process.env.KAFKA_CLIENT_ID,
+    brokers: [`${process.env.KAFKA_HOST}:${process.env.KAFKA_PORT}`],
   });
 
   const consumer = kafka.consumer({
-    groupId: "worker-group",
+    groupId: process.env.KAFKA_GROUP_ID!,
   });
 
   await consumer.connect();
   await consumer.subscribe({
-    topic: "message",
+    topic: process.env.KAFKA_TOPIC!,
   });
 
   await consumer.run({
@@ -20,7 +20,7 @@ async function main() {
       console.log(
         `Received message: ${message?.value?.toString()}, from Topic ${topic}`
       );
-      await SendMessage(message?.value?.toString()!);
+      // await SendMessage(message?.value?.toString()!);
     },
   });
 }

@@ -12,14 +12,10 @@ export async function SendMessage(message: string) {
     // appToken: process.env.APP_TOKEN,
   });
 
-  const PORT = process.env.PORT || 4000;
+  const PORT = process.env.PORT || 3001;
 
   await app.start(PORT);
   console.log(`⚡️ Bolt app is running on port ${PORT}`);
-
-  const channles = await app.client.conversations.list({
-    types: "public_channel",
-  });
 
   // const channelIds = channles.channels?.map((channel) => channel.id);
 
