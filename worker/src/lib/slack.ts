@@ -21,7 +21,7 @@ export async function SendMessage(message: string) {
     types: "public_channel",
   });
 
-  const channelIds = channles.channels?.map((channel) => channel.id);
+  // const channelIds = channles.channels?.map((channel) => channel.id);
 
   await app.client.chat.postMessage({
     channel: "C02LBV7GR96",
