@@ -12,4 +12,31 @@ services:
   zookeeper:
     image: bitnami/zookeeper:latest
   server:
-        
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+      enviroment:
+        - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+        - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+        - SERVER_PORT=3000
+    depends_on:
+      - kafka
+      - zookeeper
+    volumes:
+      - ./server:/app
+  worker:
+    build:
+      context: ./worker
+      dockerfile: Dockerfile
+      enviroment:
+        - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+        - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+        - WORKER_PORT=3001
+        - SIGNING_SECRET=${SIGNING_SECRET}
+        - BOT_TOKEN=${BOT_TOKEN}
+        - APP_TOKEN=${APP_TOKEN}
+    depends_on:
+      - kafka
+      - zookeeper
+    volumes:
+      - ./worker:/app      
