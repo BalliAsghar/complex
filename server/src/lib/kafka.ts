@@ -1,4 +1,7 @@
 import { Kafka, Partitioners, logLevel } from "kafkajs";
+import { config } from "dotenv";
+
+config();
 
 async function connectKafka() {
   const kafka = new Kafka({
@@ -29,6 +32,8 @@ export async function relayMessage(topic: string, message: string) {
       },
     ],
   });
+
+  console.log("Message sent to Kafka");
 
   await producer.disconnect();
 

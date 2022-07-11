@@ -5,8 +5,7 @@ app.use(Express.json());
 
 app.post("/message", async (req: Express.Request, res: Express.Response) => {
   const { message } = req.body;
-  const { KAFKA_TOPIC } = process.env;
-  await relayMessage(KAFKA_TOPIC!, message);
+  await relayMessage(process.env.KAFKA_TOPIC!, message);
   res.send("Message sent");
 });
 
