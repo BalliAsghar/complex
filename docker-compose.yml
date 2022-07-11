@@ -45,4 +45,12 @@ services:
    - SIGNING_SECRET=${SIGNING_SECRET}
    - BOT_TOKEN=${BOT_TOKEN}
   depends_on:
-    - broker 
+    - broker
+ kafka_web:
+   image: 'obsidiandynamics/kafdrop'
+   environment:
+     KAFKA_BROKERCONNECT: broker:9092
+   ports:
+   - '9000:9000'
+
+     
