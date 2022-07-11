@@ -1,8 +1,5 @@
 import { Kafka } from "kafkajs";
 import { SendMessage } from "./lib/slack";
-import { config } from "dotenv";
-
-config();
 async function main() {
   const kafka = new Kafka({
     clientId: process.env.KAFKA_CLIENT_ID,

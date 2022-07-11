@@ -1,8 +1,4 @@
 import { Kafka, Partitioners, logLevel } from "kafkajs";
-import { config } from "dotenv";
-
-config();
-
 async function connectKafka() {
   const kafka = new Kafka({
     clientId: process.env.KAFKA_CLIENT_ID,

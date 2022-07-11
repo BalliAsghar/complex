@@ -1,8 +1,4 @@
 import { App } from "@slack/bolt";
-import { config } from "dotenv";
-
-// load env variables
-config();
 
 export async function SendMessage(message: string) {
   const app = new App({
