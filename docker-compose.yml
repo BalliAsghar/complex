@@ -1,49 +1,60 @@
 version: '3'
+
+networks:
+ meranetwork:
+   name: meranetwork
+
 services:
  zookeeper:
   image: 'bitnami/zookeeper:latest'
-  container_name: 'zookeeper'
+  container_name: zookeeper
+  networks:
+    - meranetwork
   environment:
-      - ALLOW_ANONYMOUS_LOGIN=yes
+     ALLOW_PLAINTEXT_LISTENER: "yes"
+     ALLOW_ANONYMOUS_LOGIN: "yes"
  kafka:
   image: 'bitnami/kafka:latest'
-  container_name: 'kafka'
-  ports:
-      - '9092:9092'
+  container_name: broker
+  networks:
+      - meranetwork
   environment:
-        KAFKA_BROKER_ID=1
-      - KAFKA_LISTENERS=PLAINTEXT://:9092
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
-      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
-      - ALLOW_PLAINTEXT_LISTENER=yes
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      ALLOW_PLAINTEXT_LISTENER: "yes"
   depends_on:
-      - zookeeper
+      - zookeeper  
  producer:
   build: ./server
   container_name: 'producer'
+  networks:
+    - meranetwork
   ports:
       - '3000:3000'
   environment:
-   - PORT: 3000
-   - KAFKA_HOST=kafka
+   - PORT=3000
+   - KAFKA_HOST=broker
    - KAFKA_PORT=9092
    - KAFKA_TOPIC=message
    - KAFKA_BROKER_ID=1
    - KAFKA_CLIENT_ID=producer
   depends_on:
-      - kafka               
+    - broker               
  consumer:
   build: ./worker
   container_name: 'consumer'
-  ports:
-      - '3001:3001'
+  networks:
+     - meranetwork
   environment:
    - PORT=3001
-   - KAFKA_HOST=kafka
+   - KAFKA_HOST=broker
    - KAFKA_PORT=9092
    - KAFKA_TOPIC=message
-   - KAFKA_GROUP_ID=worker
-   - KAFKA_BROKER_ID=2
    - KAFKA_CLIENT_ID=consumer
+   - KAFKA_GROUP_ID=consumer
+   - SIGNING_SECRET=${SIGNING_SECRET}
+   - BOT_TOKEN=${BOT_TOKEN}
   depends_on:
-      - kafka 
+    - broker 
