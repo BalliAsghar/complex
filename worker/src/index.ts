@@ -5,8 +5,8 @@ async function main() {
     clientId: process.env.KAFKA_CLIENT_ID,
     brokers: [
       `${process.env.KAFKA_HOST}:${process.env.KAFKA_PORT}`,
-      `${process.env.KAFKA_HOST}2:${process.env.KAFKA_PORT2}`,
-      `${process.env.KAFKA_HOST3}3:${process.env.KAFKA_PORT3}`,
+      `${process.env.KAFKA_HOST}2:${process.env.KAFKA_PORT}`,
+      `${process.env.KAFKA_HOST3}3:${process.env.KAFKA_PORT}`,
     ],
     connectionTimeout: 10000,
     retry: {
