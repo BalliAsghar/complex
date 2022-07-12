@@ -3,7 +3,11 @@ import { SendMessage } from "./lib/slack";
 async function main() {
   const kafka = new Kafka({
     clientId: process.env.KAFKA_CLIENT_ID,
-    brokers: [`${process.env.KAFKA_HOST}:${process.env.KAFKA_PORT}`],
+    brokers: [
+      `${process.env.KAFKA_HOST}:${process.env.KAFKA_PORT}`,
+      `${process.env.KAFKA_HOST}2:${process.env.KAFKA_PORT2}`,
+      `${process.env.KAFKA_HOST3}3:${process.env.KAFKA_PORT3}`,
+    ],
     connectionTimeout: 10000,
     retry: {
       initialRetryTime: 100,

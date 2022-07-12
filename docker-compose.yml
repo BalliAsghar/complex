@@ -7,6 +7,18 @@ services:
   environment:
      ALLOW_PLAINTEXT_LISTENER: "yes"
      ALLOW_ANONYMOUS_LOGIN: "yes"
+ zookeeper2:
+  image: 'bitnami/zookeeper:latest'
+  container_name: zookeeper2
+  environment:
+     ALLOW_PLAINTEXT_LISTENER: "yes"
+     ALLOW_ANONYMOUS_LOGIN: "yes"
+ zookeeper3:
+   image: 'bitnami/zookeeper:latest'
+   container_name: zookeeper3
+   environment:
+     ALLOW_PLAINTEXT_LISTENER: "yes"
+     ALLOW_ANONYMOUS_LOGIN: "yes"      
  kafka:
   image: 'bitnami/kafka:latest'
   container_name: broker
@@ -17,7 +29,35 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       ALLOW_PLAINTEXT_LISTENER: "yes"
   depends_on:
-      - zookeeper  
+     - zookeeper
+     - zookeeper2
+     - zookeeper3   
+ kafka2:
+   image: 'bitnami/kafka:latest'
+   container_name: broker2
+   environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper2:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker2:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      ALLOW_PLAINTEXT_LISTENER: "yes"
+   depends_on:
+     - zookeeper
+     - zookeeper2
+     - zookeeper3
+ kafka3:
+   image: 'bitnami/kafka:latest'
+   container_name: broker3
+   environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper3:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker3:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      ALLOW_PLAINTEXT_LISTENER: "yes"
+   depends_on:
+     - zookeeper
+     - zookeeper2
+     - zookeeper3   
  producer:
   build: ./server
   container_name: 'producer'
@@ -31,7 +71,9 @@ services:
    - KAFKA_BROKER_ID=1
    - KAFKA_CLIENT_ID=producer
   depends_on:
-    - broker               
+    - broker
+    - broker2
+    - broker3               
  consumer:
   build: ./worker
   container_name: 'consumer'
@@ -46,11 +88,7 @@ services:
    - BOT_TOKEN=${BOT_TOKEN}
   depends_on:
     - broker
- kafka_web:
-   image: 'obsidiandynamics/kafdrop'
-   environment:
-     KAFKA_BROKERCONNECT: broker:9092
-   ports:
-   - '9000:9000'
+    - broker2
+    - broker3
 
      
