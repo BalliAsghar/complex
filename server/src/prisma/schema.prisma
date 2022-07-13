@@ -11,9 +11,10 @@ datasource db {
 }
 
 model Message {
-  id        Int      @id @default(autoincrement())
-  topic     String
-  text      String
-  createdAt DateTime @default(now())
-  received  Boolean  @default(false)
+  id         Int      @id @default(autoincrement())
+  message_id String   @unique
+  topic      String
+  text       String
+  createdAt  DateTime @default(now())
+  received   Boolean  @default(false)
 }
