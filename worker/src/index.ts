@@ -1,13 +1,25 @@
 import { Kafka } from "kafkajs";
 import { SendMessage } from "./lib/slack";
+import { config } from "dotenv";
+import { updateMessage } from "./prisma/db";
+
+config();
+
 async function main() {
-  const kafka = new Kafka({
-    clientId: process.env.KAFKA_CLIENT_ID,
-    brokers: [
+  const brokers = () => {
+    if (process.env.DEVELOPMENT) {
+      return [`localhost:9092`];
+    }
+    return [
       `${process.env.KAFKA_HOST}:${process.env.KAFKA_PORT}`,
       `${process.env.KAFKA_HOST}2:${process.env.KAFKA_PORT}`,
-      `${process.env.KAFKA_HOST3}3:${process.env.KAFKA_PORT}`,
-    ],
+      `${process.env.KAFKA_HOST}3:${process.env.KAFKA_PORT}`,
+    ];
+  };
+
+  const kafka = new Kafka({
+    clientId: process.env.KAFKA_CLIENT_ID,
+    brokers: brokers(),
     connectionTimeout: 10000,
     retry: {
       initialRetryTime: 100,
@@ -30,6 +42,7 @@ async function main() {
         `Received message: ${message?.value?.toString()}, from Topic ${topic}`
       );
       await SendMessage(message?.value?.toString()!);
+      await updateMessage(message?.key?.toString()!);
     },
   });
 }
