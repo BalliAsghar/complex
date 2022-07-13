@@ -1,5 +1,6 @@
 import { Kafka, Partitioners, logLevel } from "kafkajs";
 import { createMessage } from "../prisma/db";
+import { randomUUID } from "node:crypto";
 async function connectKafka() {
   const brokers = () => {
     if (process.env.DEVELOPMENT) {
@@ -24,6 +25,8 @@ async function connectKafka() {
 export async function relayMessage(topic: string, message: string) {
   const KafkaInit = await connectKafka();
 
+  const randomID = randomUUID().toString();
+
   const producer = KafkaInit.producer({
     createPartitioner: Partitioners.LegacyPartitioner,
     allowAutoTopicCreation: true,
@@ -34,16 +37,12 @@ export async function relayMessage(topic: string, message: string) {
 
   await producer.send({
     topic,
-    messages: [
-      {
-        value: message,
-      },
-    ],
+    messages: [{ key: randomID, value: message }],
   });
 
   console.log("Message sent to Kafka");
 
-  await createMessage(message, topic);
+  await createMessage(randomID, message, topic);
 
   console.log("Message saved to database");
 
