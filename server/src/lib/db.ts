@@ -4,6 +4,7 @@ const Message = new Schema({
   text: { type: String, required: true },
   topic: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
+  messageid: { type: String, required: true },
   read: { type: Boolean, default: false },
 });
 
@@ -29,11 +30,16 @@ const getAllMessages = async () => {
   }
 };
 
-const saveMessage = async (message: string, topic: string) => {
+const saveMessage = async (
+  message: string,
+  topic: string,
+  messageid: string
+) => {
   try {
     await MessageModel.create({
       text: message,
       topic,
+      messageid,
     });
   } catch (error) {
     console.log(error);

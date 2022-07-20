@@ -43,7 +43,7 @@ export async function relayMessage(topic: string, message: string) {
 
   console.log("Message sent to Kafka");
 
-  await saveMessage(message, topic);
+  await saveMessage(message, topic, randomID);
 
   console.log("Message saved to database");
   await producer.disconnect();
