@@ -1,7 +1,7 @@
 import Express from "express";
 import { relayMessage } from "./lib/kafka";
 import { config } from "dotenv";
-import { connectDB } from "./lib/db";
+import { connectDB, getAllMessages } from "./lib/db";
 
 config();
 
@@ -17,11 +17,15 @@ app.post("/message", async (req: Express.Request, res: Express.Response) => {
   res.send("Message sent");
 });
 
-// app.get("/messages", async (req: Express.Request, res: Express.Response) => {
-//   // const { topic } = req.body;
-//   const messages = await getMessages("message");
-//   res.json(messages);
-// });
+app.get("/messages", async (req: Express.Request, res: Express.Response) => {
+  try {
+    const messages = await getAllMessages();
+
+    messages.length > 0 ? res.json(messages) : res.send("No messages");
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 
 const PORT = process.env.PORT || 3000;
 
