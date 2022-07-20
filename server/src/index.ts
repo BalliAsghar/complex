@@ -2,11 +2,13 @@ import Express from "express";
 import { relayMessage } from "./lib/kafka";
 import { config } from "dotenv";
 import { connectDB, getAllMessages } from "./lib/db";
+import cors from "cors";
 
 config();
 
 const app = Express();
 app.use(Express.json());
+app.use(cors());
 
 // Connect to MongoDB
 connectDB(process.env.MONGODB_URI!);
