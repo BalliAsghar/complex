@@ -1,6 +1,6 @@
 import { Kafka, Partitioners, logLevel } from "kafkajs";
-import { createMessage } from "../prisma/db";
 import { randomUUID } from "node:crypto";
+
 async function connectKafka() {
   const brokers = () => {
     if (process.env.DEVELOPMENT) {
@@ -42,9 +42,7 @@ export async function relayMessage(topic: string, message: string) {
 
   console.log("Message sent to Kafka");
 
-  await createMessage(randomID, message, topic);
-
-  console.log("Message saved to database");
+  // console.log("Message saved to database");
 
   await producer.disconnect();
 
