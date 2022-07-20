@@ -1,7 +1,15 @@
 import Express from "express";
 import { relayMessage } from "./lib/kafka";
+import { config } from "dotenv";
+import { connectDB } from "./lib/db";
+
+config();
+
 const app = Express();
 app.use(Express.json());
+
+// Connect to MongoDB
+connectDB(process.env.MONGODB_URI!);
 
 app.post("/message", async (req: Express.Request, res: Express.Response) => {
   const { message } = req.body;
