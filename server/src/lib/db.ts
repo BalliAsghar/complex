@@ -19,4 +19,26 @@ async function connectDB(URI: string) {
 
 const MessageModel = mongoose.model("Message", Message);
 
-export { MessageModel, connectDB };
+const getAllMessages = async () => {
+  try {
+    const messages = await MessageModel.find();
+    return messages;
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+};
+
+const saveMessage = async (message: string, topic: string) => {
+  try {
+    await MessageModel.create({
+      text: message,
+      topic,
+    });
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+};
+
+export { connectDB, getAllMessages, saveMessage };

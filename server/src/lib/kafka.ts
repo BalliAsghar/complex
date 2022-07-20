@@ -1,6 +1,6 @@
 import { Kafka, Partitioners, logLevel } from "kafkajs";
 import { randomUUID } from "node:crypto";
-import { MessageModel as Message } from "./db";
+import { saveMessage } from "./db";
 
 async function connectKafka() {
   const brokers = () => {
@@ -43,10 +43,7 @@ export async function relayMessage(topic: string, message: string) {
 
   console.log("Message sent to Kafka");
 
-  await Message.create({
-    text: message,
-    topic,
-  });
+  await saveMessage(message, topic);
 
   console.log("Message saved to database");
   await producer.disconnect();
