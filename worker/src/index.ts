@@ -1,7 +1,6 @@
 import { Kafka } from "kafkajs";
 import { SendMessage } from "./lib/slack";
 import { config } from "dotenv";
-import { updateMessage } from "./prisma/db";
 
 config();
 
@@ -42,7 +41,7 @@ async function main() {
         `Received message: ${message?.value?.toString()}, from Topic ${topic}`
       );
       await SendMessage(message?.value?.toString()!);
-      await updateMessage(message?.key?.toString()!);
+      // Message needs to be updated to acknowledge that it has been seen
     },
   });
 }
