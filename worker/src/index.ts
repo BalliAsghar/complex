@@ -1,6 +1,7 @@
 import { Kafka } from "kafkajs";
 import { SendMessage } from "./lib/slack";
 import { config } from "dotenv";
+import { updateMessage } from "./lib/db";
 
 config();
 
@@ -42,6 +43,7 @@ async function main() {
       );
       await SendMessage(message?.value?.toString()!);
       // Message needs to be updated to acknowledge that it has been seen
+      await updateMessage(message?.key?.toString()!, process.env.MONGODB_URI!);
     },
   });
 }
