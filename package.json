@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "start": "concurrently -c 'green,yellow,blue' -n 'server,client,worker' 'npm --prefix ./server run start:dev' 'npm --prefix ./client run dev' 'npm --prefix ./worker run start:dev'"
+  },
+  "name": "complex",
+  "version": "1.0.0",
+  "repository": "https://github.com/BalliAsghar/complex.git",
+  "author": "Balli Asghar <ballihacker@outlook.com>",
+  "license": "MIT"
+}
