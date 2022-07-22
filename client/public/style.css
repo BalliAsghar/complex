@@ -762,6 +762,14 @@ video {
   height: 2rem;
 }
 
+.h-6{
+  height: 1.5rem;
+}
+
+.h-5{
+  height: 1.25rem;
+}
+
 .w-full{
   width: 100%;
 }
@@ -780,6 +788,14 @@ video {
   width: 2.5rem;
 }
 
+.w-6{
+  width: 1.5rem;
+}
+
+.w-5{
+  width: 1.25rem;
+}
+
 .max-w-screen-xl{
   max-width: 1280px;
 }
@@ -794,6 +810,22 @@ video {
 
 .flex-1{
   flex: 1 1 0%;
+}
+
+.flex-auto{
+  flex: 1 1 auto;
+}
+
+.flex-initial{
+  flex: 0 1 auto;
+}
+
+.flex-shrink-0{
+  flex-shrink: 0;
+}
+
+.flex-grow{
+  flex-grow: 1;
 }
 
 .grow{
@@ -852,6 +884,10 @@ video {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.flex-row{
+  flex-direction: row;
+}
+
 .flex-col{
   flex-direction: column;
 }
@@ -876,6 +912,10 @@ video {
   align-items: center;
 }
 
+.justify-start{
+  justify-content: flex-start;
+}
+
 .justify-end{
   justify-content: flex-end;
 }
@@ -898,6 +938,10 @@ video {
 
 .gap-2{
   gap: 0.5rem;
+}
+
+.gap-px{
+  gap: 1px;
 }
 
 .space-x-0 > :not([hidden]) ~ :not([hidden]){
@@ -1073,6 +1117,30 @@ video {
   background-repeat: space;
 }
 
+.fill-yellow-400{
+  fill: #facc15;
+}
+
+.fill-current{
+  fill: currentColor;
+}
+
+.fill-gray-50{
+  fill: #f9fafb;
+}
+
+.fill-red-400{
+  fill: #f87171;
+}
+
+.stroke-2{
+  stroke-width: 2;
+}
+
+.stroke-1{
+  stroke-width: 1;
+}
+
 .px-4{
   padding-left: 1rem;
   padding-right: 1rem;
@@ -1121,6 +1189,15 @@ video {
 .px-8{
   padding-left: 2rem;
   padding-right: 2rem;
+}
+
+.py-1{
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.text-right{
+  text-align: right;
 }
 
 .text-start{
@@ -1190,6 +1267,10 @@ video {
   line-height: 1;
 }
 
+.leading-tight{
+  line-height: 1.25;
+}
+
 .text-green-500{
   --tw-text-opacity: 1;
   color: rgb(34 197 94 / var(--tw-text-opacity));
@@ -1218,6 +1299,21 @@ video {
 .text-gray-900{
   --tw-text-opacity: 1;
   color: rgb(17 24 39 / var(--tw-text-opacity));
+}
+
+.text-green-600{
+  --tw-text-opacity: 1;
+  color: rgb(22 163 74 / var(--tw-text-opacity));
+}
+
+.text-gray-400{
+  --tw-text-opacity: 1;
+  color: rgb(156 163 175 / var(--tw-text-opacity));
+}
+
+.text-gray-500{
+  --tw-text-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-text-opacity));
 }
 
 .mix-blend-plus-lighter{
