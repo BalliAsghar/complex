@@ -34,22 +34,31 @@
         </div>
       </div>
       <!-- Messages -->
-      <div class="gap-2">
-        <div class="flex flex-1 px-8 py-2 rounded-md shadow-lg gap-1">
-          <div class="text-green-500">News:</div>
-          <div class="text-gray-700">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      <div x-data>
+        <template x-for="message in $store.app.messages">
+          <div
+            class="grid grid-cols-2 justify-between px-8 py-2 rounded-md shadow-lg gap-1"
+          >
+            <div class="text-green-500" x-text="message.topic"></div>
+
+            <div class="text-gray-700" x-text="message.text"></div>
+            <!-- date -->
+            <span class="text-gray-400">
+              <time x-text="$store.app.formatDate(message.createdAt)"></time>
+            </span>
           </div>
-          <!-- date -->
-          <span class="text-gray-400">
-            <time datetime="2020-01-01">Jan 1, 2020</time>
-          </span>
-        </div>
+        </template>
       </div>
     </div>
 
     <!-- End Hero -->
 
     <script type="module" src="src/main.js"></script>
+    <script>
+      function formatDate(date) {
+        const d = new Date(date);
+        return `${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
+      }
+    </script>
   </body>
 </html>
