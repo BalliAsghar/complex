@@ -23,6 +23,9 @@
           class="w-full px-20 py-2 text-gray-700 border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
           type="text"
           placeholder="Type a message..."
+          x-data
+          x-model="$store.app.message"
+          @keydown.enter="$store.app.sendMessage()"
         />
         <div class="flex items-center justify-center mx-2">
           <button
