@@ -15,6 +15,11 @@ connectDB(process.env.MONGODB_URI!);
 
 app.post("/message", async (req: Express.Request, res: Express.Response) => {
   const { message } = req.body;
+  if (!message) {
+    return res.status(400).json({
+      error: "Message is required",
+    });
+  }
   await relayMessage(process.env.KAFKA_TOPIC!, message);
   res.send("Message sent");
 });
