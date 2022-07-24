@@ -42,7 +42,7 @@ async function main() {
         `Received message: ${message?.value?.toString()}, from Topic ${topic}`
       );
       await SendMessage(message?.value?.toString()!);
-      // Message needs to be updated to acknowledge that it has been seen
+      // Message needs to be updated to acknowledge that it has been sent
       await updateMessage(message?.key?.toString()!, process.env.MONGODB_URI!);
     },
   });

@@ -5,7 +5,7 @@ const Message = new Schema({
   topic: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   messageid: { type: String, required: true },
-  read: { type: Boolean, default: false },
+  sent: { type: Boolean, default: false },
 });
 
 async function connectDB(URI: string) {
