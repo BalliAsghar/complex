@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "concurrently -c 'green,yellow,blue' -n 'server,client,worker' 'npm --prefix ./server run start:dev' 'npm --prefix ./client run dev' 'npm --prefix ./worker run start:dev'"
+    "start": "concurrently -c 'green,yellow,blue' -n 'server,worker' 'npm --prefix ./server run start:dev' 'npm --prefix ./worker run start:dev'"
   },
   "name": "complex",
   "version": "1.0.0",
