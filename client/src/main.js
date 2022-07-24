@@ -8,12 +8,11 @@ Alpine.store("title", "Send Message Via Kafka");
 
 Alpine.store("app", {
   init() {
-    async function getMessages(messages) {
-      const response = await fetch("http://localhost:3000/messages");
-      const data = await response.json();
-      messages.push(...data);
-    }
-    getMessages(this.messages);
+    this.getMessages()
+      .then((messages) => {
+        this.messages = messages;
+      })
+      .catch((err) => console.log(err));
   },
   message: "",
   messages: [],
@@ -23,18 +22,28 @@ Alpine.store("app", {
   sendMessage() {
     async function postMessage(message) {
       const body = JSON.stringify({ message });
-      const response = await fetch("http://localhost:3000/message", {
+      await fetch("http://localhost:3000/message", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body,
+        body: body,
       });
-      const data = await response.json();
-      console.log(data);
     }
     postMessage(this.message);
     this.message = "";
+    // reload the page
+    // need to figure out how to do this without reloading the page
+    window.location.reload();
+  },
+  getMessages() {
+    async function grabMessages() {
+      const response = await fetch("http://localhost:3000/messages");
+      const data = await response.json();
+
+      return data;
+    }
+    return grabMessages();
   },
 });
 

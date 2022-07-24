@@ -12,6 +12,7 @@ module.exports = {
     },
     fontFamily: {
       cor: ["Cormorant SC", "serif"],
+      edu: ["Edu QLD Beginner", "cursive"],
     },
   },
   plugins: [],
