@@ -5,6 +5,7 @@ const Message = new Schema({
   topic: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   sent: { type: Boolean, default: false },
+  messageid: { type: String, required: true },
 });
 
 async function connectDB(URI: string) {
@@ -19,8 +20,15 @@ async function connectDB(URI: string) {
 
 const MessageModel = mongoose.model("Message", Message);
 
-const updateMessageRead = async (id: string) =>
-  await MessageModel.findOneAndUpdate({ messageId: id }, { sent: true });
+const updateMessageRead = async (id: string) => {
+  try {
+    await MessageModel.findOneAndUpdate({ messageid: id }, { sent: true });
+  } catch (error) {
+    console.log("Error updating message");
+    console.log(error);
+    process.exit(1);
+  }
+};
 
 const updateMessage = async (id: string, URI: string) => {
   try {
