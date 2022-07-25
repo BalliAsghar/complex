@@ -6,19 +6,7 @@ services:
   container_name: zookeeper
   environment:
      ALLOW_PLAINTEXT_LISTENER: "yes"
-     ALLOW_ANONYMOUS_LOGIN: "yes"
- zookeeper2:
-  image: 'bitnami/zookeeper:latest'
-  container_name: zookeeper2
-  environment:
-     ALLOW_PLAINTEXT_LISTENER: "yes"
-     ALLOW_ANONYMOUS_LOGIN: "yes"
- zookeeper3:
-   image: 'bitnami/zookeeper:latest'
-   container_name: zookeeper3
-   environment:
-     ALLOW_PLAINTEXT_LISTENER: "yes"
-     ALLOW_ANONYMOUS_LOGIN: "yes"      
+     ALLOW_ANONYMOUS_LOGIN: "yes"  
  kafka:
   image: 'bitnami/kafka:latest'
   container_name: broker
@@ -26,38 +14,14 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:9092
+      KAFKA_LOG4J_LOGGERS: "kafka.controller=ERROR,kafka.producer.async.DefaultEventHandler=ERROR,state.change.logger=ERROR"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       ALLOW_PLAINTEXT_LISTENER: "yes"
   depends_on:
      - zookeeper
-     - zookeeper2
-     - zookeeper3   
- kafka2:
-   image: 'bitnami/kafka:latest'
-   container_name: broker2
-   environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper2:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker2:9092
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      ALLOW_PLAINTEXT_LISTENER: "yes"
-   depends_on:
-     - zookeeper
-     - zookeeper2
-     - zookeeper3
- kafka3:
-   image: 'bitnami/kafka:latest'
-   container_name: broker3
-   environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper3:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker3:9092
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      ALLOW_PLAINTEXT_LISTENER: "yes"
-   depends_on:
-     - zookeeper
-     - zookeeper2
-     - zookeeper3   
+ mongo: 
+   image: 'mongo:latest'
+   container_name: mongo  
  producer:
   build: ./server
   container_name: 'producer'
@@ -70,10 +34,10 @@ services:
    - KAFKA_TOPIC=message
    - KAFKA_BROKER_ID=1
    - KAFKA_CLIENT_ID=producer
+   - MONGODB_URI=mongodb://mongo:27017/complex
   depends_on:
     - broker
-    - broker2
-    - broker3               
+    - mongo             
  consumer:
   build: ./worker
   container_name: 'consumer'
@@ -86,9 +50,9 @@ services:
    - KAFKA_GROUP_ID=consumer
    - SIGNING_SECRET=${SIGNING_SECRET}
    - BOT_TOKEN=${BOT_TOKEN}
+   - MONGODB_URI=mongodb://mongo:27017/complex
   depends_on:
     - broker
-    - broker2
-    - broker3
+    - mongo
 
      
