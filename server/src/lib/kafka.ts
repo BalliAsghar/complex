@@ -3,20 +3,9 @@ import { randomUUID } from "node:crypto";
 import { saveMessage } from "./db";
 
 async function connectKafka() {
-  const brokers = () => {
-    if (process.env.DEVELOPMENT) {
-      return [`localhost:9092`];
-    }
-    return [
-      `${process.env.KAFKA_HOST}:${process.env.KAFKA_PORT}`,
-      `${process.env.KAFKA_HOST}2:${process.env.KAFKA_PORT}`,
-      `${process.env.KAFKA_HOST}3:${process.env.KAFKA_PORT}`,
-    ];
-  };
-
   const kafka = new Kafka({
     clientId: process.env.KAFKA_CLIENT_ID,
-    brokers: brokers(),
+    brokers: [`${process.env.KAFKA_HOST}:${process.env.KAFKA_PORT}`],
     logLevel: logLevel.INFO,
   });
 
